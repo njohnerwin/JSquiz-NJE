@@ -1,8 +1,6 @@
 //***Variables to pull elements from the html***
 
-var highScoresNav = document.getElementById("highScoresNav");
 var timerEl = document.getElementById("timerNav");
-var container = document.querySelectorAll(".container");
 var homeTitleEl = document.getElementById("homeTitle");
 var homeText = document.getElementById("homeText");
 var startButton = document.getElementById("start");
@@ -16,7 +14,6 @@ var buttonD = document.getElementById("dButton");
 var divD = document.getElementById("dDiv");
 var verifierDiv = document.getElementById("verifierDiv");
 var initialForm = document.getElementById("initialForm");
-var initialInput = document.querySelector("#initials");
 var scoreDisplay = document.getElementById("scoreDisplay");
 
 
@@ -334,7 +331,7 @@ dButton.addEventListener("click", function() {
     verifyAnswer(3);
 });
 
-highScoresNav.addEventListener("click", printScores);
+document.getElementById("highScoresNav").addEventListener("click", printScores);
 
 initialForm.addEventListener("submit", function(event) {
 
@@ -346,7 +343,7 @@ initialForm.addEventListener("submit", function(event) {
     var listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
 
     var entryHS = {
-        initials: initialInput.value,
+        initials: document.querySelector("#initials").value,
         score: timer,
     };
 
