@@ -132,30 +132,6 @@ function shuffle(array) {
     }
 }
 
-
-//Orders the HSList array from highest score to lowest
-function orderByScore(array) {
-
-    var j = [{
-        initials: "TST",
-        score: 0
-    }];
-    
-    for (let i = array.length - 1; i > 0; i--) {
-        if (j[0].score > array[i].score) {
-            j.push(array[i]);
-        }
-        else {
-            j.unshift(array[i]);
-        }
-    }
-
-    j.pop();
-
-    return j;
-}
-
-
 //Clears the current multiple choice options so that the new children may populate them properly
 function clearQuestion() {
     divA.removeChild(divA.childNodes[3]);
@@ -239,6 +215,7 @@ function subtractTimer (amount) {
     timer = timer - amount;
     if (timer <= 0) {
         timerEl.textContent = "Time's up!";
+        printScores();
     }
     else {
         timerEl.textContent = "Time: " + timer;
@@ -270,7 +247,6 @@ function printScores() {
     homeText.textContent = "";
     startButton.setAttribute("style", "display: none");
 
-    listHS = orderByScore(listHS);
     console.log(listHS);
 
     for (var x in listHS) {
