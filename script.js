@@ -17,6 +17,7 @@ var buttonD = document.getElementById("dButton");
 var divD = document.getElementById("dDiv");
 var verifierDiv = document.getElementById("verifierDiv");
 var initialForm = document.getElementById("initialForm");
+var initialInput = document.querySelector("#initials");
 var scoreDisplay = document.getElementById("scoreDisplay");
 
 
@@ -27,6 +28,8 @@ var timer = 200;
 var timerInterval;
 var questionNo = 1;
 var verifier = document.createElement("h3");
+var listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
+
 verifier.textContent = "";
 verifier.setAttribute("class", "correct");
 verifierDiv.appendChild(verifier);
@@ -45,17 +48,77 @@ var questionTest = {
     correct: 1 
 };
 
-var questionTest2 = {
+var questionA = {
     id: 1,
-    question: "This question is another placeholder, we're testing multiples now!",
-    answer0: "Oompa loompa doompity doo",
-    answer1: "I've got another puzzle for you",
-    answer2: "Oompa loompa doompity dee",
-    answer3: "If you are wise, you'll listen to me",
-    correct: 3
+    question: "Which of the following will display a dialog box to the user?",
+    answer0: "alert()",
+    answer1: "parseInt()",
+    answer2: "//alert",
+    answer3: "origami()",
+    correct: 0 
 };
 
-var questionsArray = [questionTest, questionTest2];
+var questionB = {
+    id: 2,
+    question: "What does console.log(variable) do?",
+    answer0: "Displays a dialogue box with the value of the variable",
+    answer1: "Sets the variable's value to log",
+    answer2: "Prints the variable's value to the console",
+    answer3: "Creates a robust game console emulator",
+    correct: 2
+};
+
+var questionC = {
+    id: 3,
+    question: "var pizzaCount = 15; var pizzaP = Math.pow(pizzaCount, 2) ...What is the value of pizzaP?",
+    answer0: "30",
+    answer1: "0",
+    answer2: "225",
+    answer3: "It's random",
+    correct: 2 
+};
+
+var questionD = {
+    id: 4,
+    question: "var monopoly = Math.floor(Math.random() * 10); ...What is the value of monopoly?",
+    answer0: "A random float",
+    answer1: "A random integer between 0 and 9",
+    answer2: "A random integer between 1 and 10",
+    answer3: "Nat. 20!!!",
+    correct: 1
+};
+
+var questionE = {
+    id: 5,
+    question: "What prompts does the user normally receive for a prompt() dialogue in Google Chrome?",
+    answer0: "OK / Cancel",
+    answer1: "Yes / No",
+    answer2: "Accept / Decline",
+    answer3: "Left / Right",
+    correct: 0
+};
+
+var questionF = {
+    id: 6,
+    question: "Which type of bracket is used to denote an array in Javascript?",
+    answer0: "Parentheses - ()",
+    answer1: "Square brackets - []",
+    answer2: "Curly brackets - {}",
+    answer3: "Fantasy football brackets",
+    correct: 1 
+};
+
+var questionG = {
+    id: 7,
+    question: "If I want to call the second item in array dinosaurNames, I would use...",
+    answer0: "dinosaurNames[1]",
+    answer1: "dinosaurNames[2]",
+    answer2: "dinosaurNames[3]",
+    answer3: "dinosaurNames[0]",
+    correct: 0
+};
+
+var questionsArray = [questionA, questionB, questionC, questionD, questionE, questionF, questionG];
 
 
 //***Functions***
@@ -70,15 +133,26 @@ function shuffle(array) {
 }
 
 
-//Saves the user's score at the end of the game
-function saveScore() {
-    return;
-}
+//Orders the HSList array from highest score to lowest
+function orderByScore(array) {
 
+    var j = [{
+        initials: "TST",
+        score: 0
+    }];
+    
+    for (let i = array.length - 1; i > 0; i--) {
+        if (j[0].score > array[i].score) {
+            j.push(array[i]);
+        }
+        else {
+            j.unshift(array[i]);
+        }
+    }
 
-//Prints the High Score list
-function printScores() {
-    return;
+    j.pop();
+
+    return j;
 }
 
 
@@ -187,6 +261,27 @@ function feedbackPrompt(result) {
 }
 
 
+//Prints the High Score list
+function printScores() {
+    clearAll();
+    clearInterval(timerInterval);
+    listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
+    homeTitleEl.textContent = "~HIGH SCORES~";
+    homeText.textContent = "";
+    startButton.setAttribute("style", "display: none");
+
+    listHS = orderByScore(listHS);
+    console.log(listHS);
+
+    for (var x in listHS) {
+        homeText.appendChild(document.createTextNode(listHS[x].initials + " ~ " + listHS[x].score + " pts."));
+        homeText.appendChild(document.createElement("hr"));
+    }
+
+    return;
+}
+
+
 //Checks if the user's answer was correct or incorrect
 function verifyAnswer(answer) {
     
@@ -198,7 +293,6 @@ function verifyAnswer(answer) {
             console.log("Finished!");
             feedbackPrompt("correct");
             printVictory();
-            saveScore();
             return;
     
         }
@@ -228,6 +322,7 @@ function verifyAnswer(answer) {
     }
 }
 
+
 //Initializes the game after the Start button is clicked
 function startGame() {
 
@@ -240,17 +335,47 @@ function startGame() {
 }
 
 //***Script Execution***
+
+
 timerEl.textContent = "Time: " + timer;
+
 startButton.addEventListener("click", startGame);
+
 aButton.addEventListener("click", function() {
     verifyAnswer(0);
-})
+});
 bButton.addEventListener("click", function() {
     verifyAnswer(1);
-})
+});
 cButton.addEventListener("click", function() {
     verifyAnswer(2);
-})
-dButton.addEventListener("click", function(event) {
+});
+dButton.addEventListener("click", function() {
     verifyAnswer(3);
-})
+});
+
+highScoresNav.addEventListener("click", printScores);
+
+initialForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    scoreDisplay.setAttribute("style", "display: none");
+    initialForm.setAttribute("style", "display: none");   
+    
+    var listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
+
+    var entryHS = {
+        initials: initialInput.value,
+        score: timer,
+    };
+
+    listHS.push(entryHS);
+
+    console.log(listHS);
+
+    localStorage.setItem("HSlist", JSON.stringify(listHS));
+
+    printScores();
+
+});
