@@ -36,17 +36,59 @@ nav #timerNav {
 .button {
     font-size: 18px;
     margin-top: 15px;
-    padding: 10px;
+    padding: 10px 15px;
     background-color: rgb(104, 211, 104);
     color: white;
     border-radius: 10px;
 }
 
+.choices {
+    width: 500px;
+    text-align: left;
+}
+
+.choice-button {
+    background-color: rgb(96, 84, 251);
+    visibility: hidden;
+    margin-right: 20px;
+}
+
+.correct {
+    font-size: 24px;
+    color: rgb(42, 180, 42);
+    animation-fill-mode: forwards;
+    animation-duration: 1.5s;
+    animation-name: fadeout;
+}
+
+.incorrect {
+    color: rgb(209, 49, 49);
+    font-size: 24px;
+    animation-fill-mode: forwards;
+    animation-duration: 1.5s;
+    animation-name: fadeout;
+}
+
+@keyframes fadeout {
+    
+    from {
+        opacity: 100%
+    }
+
+    to {
+        opacity:0%
+    }
+}
+
 #homeTitle {
     font-size: 40px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 #homeText {
     font-size: 18px;
+}
+
+#initialForm {
+    display: none;
 }

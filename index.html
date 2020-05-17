@@ -25,15 +25,47 @@
         </nav>
 
         <div class="container">
+
             <h2 id="homeTitle">Javascript Quiz Time</h2>
-            <p id="homeText">Welcome to my beginner-level Javascript quiz!
+
+            <p id="homeText">
+                Welcome to my beginner-level Javascript quiz!
                 I'll ask some simple multiple-choice questions to see how much you know about 
                 basic Javascript fundamentals. Incorrect answers will subtract time from the 
                 timer. Once you've successfully answered all the questions, we'll record your 
                 score based on the remaining time. Try to get a high score!
             </p>
-            <button class="button" id="start">Click here to begin!</button>
+            <h2 id="scoreDisplay"></h2>
+            <form id="initialForm">
+                <label for="initials">Please enter your initials (i.e. NJE)</label><br>
+                <input type = "text" name = "initials" id = "initials"><br>
+                <input type = "submit" value = "submit">
+            </form>
+            <br>
+
+            <button class="button" id="start">Start!</button>
+            
+            <div id="verifierDiv"></div>
+
+            <div class="choices">
+                <div class="choice" id="aDiv">
+                    <button class="button choice-button" id="aButton">A</button>
+                </div>
+                <div class="choice" id="bDiv">
+                    <button class="button choice-button" id="bButton">B</button>
+                </div>
+                <div class="choice" id="cDiv">
+                    <button class="button choice-button" id="cButton">C</button>
+                </div>
+                <div class="choice" id="dDiv">
+                    <button class="button choice-button" id="dButton">D</button>
+                </div>
+            </div>
+
         </div>
+
     </body>
+
     <script src="script.js"></script>
+    
 </html>
