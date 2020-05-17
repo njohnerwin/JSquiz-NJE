@@ -234,10 +234,12 @@ function feedbackPrompt(result) {
     verifierDiv.removeChild(verifierDiv.childNodes[0]);
     if (result == "correct") {
         verifier.textContent = "Correct!";
+        verifier.setAttribute("style", "visibility: visible");
         verifier.setAttribute("class", "correct");
     }
     else {
         verifier.textContent = "Incorrect! (-50 seconds)";
+        verifier.setAttribute("style", "visibility: visible");
         verifier.setAttribute("class", "incorrect");
     }
     verifierDiv.appendChild(verifier);
