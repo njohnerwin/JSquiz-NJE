@@ -92,3 +92,26 @@ nav #timerNav {
 #initialForm {
     display: none;
 }
+
+#initials {
+    height: 1.5rem;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 576px) {
+    
+    nav {
+        width: 100%;
+        margin: 0;
+    }
+
+    h2 {
+        line-height: 3rem;
+    }
+
+    .container {
+        width: 95%;
+        margin-left: 10px;
+    }
+
+}

@@ -61,7 +61,7 @@ var questionA = {
 var questionB = {
     id: 2,
     question: "What does console.log(variable) do?",
-    answer0: "Displays a dialogue box with the value of the variable",
+    answer0: "Displays a dialogue box with that value",
     answer1: "Sets the variable's value to log",
     answer2: "Prints the variable's value to the console",
     answer3: "Creates a robust game console emulator",
