@@ -1,6 +1,5 @@
 //***Variables to pull elements from the html***
 
-
 var highScoresNav = document.getElementById("highScoresNav");
 var timerEl = document.getElementById("timerNav");
 var container = document.querySelectorAll(".container");
@@ -21,8 +20,7 @@ var initialInput = document.querySelector("#initials");
 var scoreDisplay = document.getElementById("scoreDisplay");
 
 
-//***New variable declarations***
-
+//***New variable declarations and initial page display settings***
 
 var timer = 200;
 var timerInterval;
@@ -30,13 +28,15 @@ var questionNo = 1;
 var verifier = document.createElement("h3");
 var listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
 
-verifier.textContent = "";
+verifier.textContent = "placeholder";
+verifier.setAttribute("style", "visibility: hidden");
 verifier.setAttribute("class", "correct");
 verifierDiv.appendChild(verifier);
 
+timerEl.textContent = "Time: " + timer;
 
-//***The Questions!***
 
+//***The Questions! (Currently contains 7 + one dummied test question) ***
 
 var questionTest = {
     id: 0,
@@ -123,6 +123,19 @@ var questionsArray = [questionA, questionB, questionC, questionD, questionE, que
 
 //***Functions***
 
+//Hides multiple elements at once
+function hideElements(elementArray) {
+    for (var x in elementArray) {
+        elementArray[x].setAttribute("style", "visibility:hidden");
+    };  
+}
+
+//Inverse of hideElements
+function showElements(elementArray) {
+    for (var x in elementArray) {
+        elementArray[x].setAttribute("style", "visibility: visible");
+    }
+}
 
 //Shuffles an array
 function shuffle(array) {
@@ -140,28 +153,18 @@ function clearQuestion() {
     divD.removeChild(divD.childNodes[3]);
 }
 
-
 //Similar to clearQuestion, but cleans the choice buttons entirely for the victory screen
 function clearAll() {
-    buttonA.setAttribute("style", "visibility: hidden");
-    buttonB.setAttribute("style", "visibility: hidden");
-    buttonC.setAttribute("style", "visibility: hidden");
-    buttonD.setAttribute("style", "visibility: hidden");
-    divA.setAttribute("style", "visibility: hidden");
-    divB.setAttribute("style", "visibility: hidden");
-    divC.setAttribute("style", "visibility: hidden");
-    divD.setAttribute("style", "visibility: hidden");
+    hideElements([buttonA, buttonB, buttonC, buttonD, divA, divB, divC, divD]);
 }
 
 //Prints the selected question
 function printQuestion(number) {
+
     homeTitleEl.textContent = "Question #" + questionNo;
     homeText.textContent = questionsArray[number].question;
     startButton.setAttribute("style", "display: none");
-    buttonA.setAttribute("style", "visibility: visible");
-    buttonB.setAttribute("style", "visibility: visible");
-    buttonC.setAttribute("style", "visibility: visible");
-    buttonD.setAttribute("style", "visibility: visible");
+    showElements([buttonA, buttonB, buttonC, buttonD]);
 
     var qtextA = document.createElement("span");
     var qtextB = document.createElement("span");
@@ -177,6 +180,7 @@ function printQuestion(number) {
     divB.appendChild(qtextB);
     divC.appendChild(qtextC);
     divD.appendChild(qtextD);
+
 }
 
 
@@ -197,6 +201,7 @@ function printVictory() {
 
 //Initializes the timer at the start of the game
 function setTimer() {
+
     timerInterval = setInterval(function() {
         timer--;
         timerEl.textContent = "Time: " + timer;
@@ -207,11 +212,13 @@ function setTimer() {
         }
     
     }, 1000);
+
 }
 
 
 //Subtracts time from the timer when the user answers incorrectly
 function subtractTimer (amount) {
+
     timer = timer - amount;
     if (timer <= 0) {
         timerEl.textContent = "Time's up!";
@@ -220,11 +227,13 @@ function subtractTimer (amount) {
     else {
         timerEl.textContent = "Time: " + timer;
     }
+
 }
 
 
 //Informs the player whether they were Right or Wrong
 function feedbackPrompt(result) {
+
     verifierDiv.removeChild(verifierDiv.childNodes[0]);
     if (result == "correct") {
         verifier.textContent = "Correct!";
@@ -235,11 +244,13 @@ function feedbackPrompt(result) {
         verifier.setAttribute("class", "incorrect");
     }
     verifierDiv.appendChild(verifier);
+
 }
 
 
 //Prints the High Score list
 function printScores() {
+
     clearAll();
     clearInterval(timerInterval);
     listHS = JSON.parse(localStorage.getItem("HSlist")) || [];
@@ -253,8 +264,8 @@ function printScores() {
         homeText.appendChild(document.createTextNode(listHS[x].initials + " ~ " + listHS[x].score + " pts."));
         homeText.appendChild(document.createElement("hr"));
     }
-
     return;
+
 }
 
 
@@ -299,33 +310,26 @@ function verifyAnswer(answer) {
 }
 
 
-//Initializes the game after the Start button is clicked
-function startGame() {
-
-    shuffle(questionsArray);
-    setTimer();
-
-    printQuestion((parseInt(questionNo)) - 1);
-    
-
-}
-
 //***Script Execution***
 
-
-timerEl.textContent = "Time: " + timer;
-
-startButton.addEventListener("click", startGame);
+startButton.addEventListener("click", function() {
+    shuffle(questionsArray);
+    setTimer();
+    printQuestion((parseInt(questionNo)) - 1);
+});
 
 aButton.addEventListener("click", function() {
     verifyAnswer(0);
 });
+
 bButton.addEventListener("click", function() {
     verifyAnswer(1);
 });
+
 cButton.addEventListener("click", function() {
     verifyAnswer(2);
 });
+
 dButton.addEventListener("click", function() {
     verifyAnswer(3);
 });
